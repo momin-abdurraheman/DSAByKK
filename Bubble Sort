@@ -1,0 +1,44 @@
+import java.util.Arrays;
+
+/*  It is sorting the array in a way that with each step largest element 
+ comes to end
+ Also known as Sinking Sort or Exchange Sort
+ Space complexity is O(1) that is constant that is no extra space is 
+ requires also known as in place sorting algorithm 
+ Time Complexity: Best case:O(n)
+                  Worst Case:O(N^2)
+
+Stable and Unstable sorting algorithms:
+    For the same value if the previous order is as it is after sorting then it is 
+    a Stable sort
+    For the same value if the previous order is not as it is after sorting then
+    it is a Unstable Sorting Algorithm
+ */
+public class bubbleSort {
+    public static void main(String[] args) {
+        int[] arr = { 4, 3, 2, 1 };
+        bubble(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    static void bubble(int[] arr) {
+        // runs the steps in n-1 times
+        for (int i = 0; i < arr.length; i++) {
+            boolean swapped = false;
+            // For each step max element will come to its position
+            for (int j = 1; j < arr.length - i; j++) {
+                // Swap if item is smaller than previous one
+                if (arr[j] < arr[j - 1]) {
+                    // Swap
+                    int temp = arr[j];
+                    arr[j] = arr[j - 1];
+                    arr[j - 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+}

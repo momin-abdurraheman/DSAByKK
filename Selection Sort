@@ -1,0 +1,54 @@
+package Lecture17;
+
+import java.util.*;
+
+/*  Select a element and put it at its coreect index
+  It is not stable algorithm
+  Time complexity O(N^2)
+  Put minimum element at its position in each pass
+
+
+*/
+public class selectionSort {
+  public static void main(String[] args) {
+    int[] arr = { 5, 4, 3, 2, 1 };
+    selection(arr);
+    System.out.println(Arrays.toString(arr));
+
+  }
+
+  // Main algorithm
+  /*
+   * First find last index then find index of maximum element and swap the maximum
+   * element at last position
+   */
+  static void selection(int[] arr) {
+    for (int i = 0; i < arr.length; i++) {
+      // find max element and position it at right index
+      int last = arr.length - i - 1;
+      // Finding index of maximum element
+      int maxIndex = getMaxIndex(arr, 0, last);
+      // swapping max element at last position
+      swap(arr, maxIndex, last);
+    }
+
+  }
+
+  static void swap(int[] arr, int first, int second) {
+    int temp = arr[first];
+    arr[first] = arr[second];
+    arr[second] = temp;
+
+  }
+
+  // Finding index of max Element
+  static int getMaxIndex(int[] arr, int start, int end) {
+    int max = start;
+    for (int i = start; i <= end; i++) {
+      if (arr[max] < arr[i]) {
+        max = i;
+      }
+    }
+    return max;
+  }
+}

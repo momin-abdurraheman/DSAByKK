@@ -29,3 +29,85 @@ public class Main {
         return new int[] { -1, -1 };
     }
 }
+
+Q2 Searching in sorted matrix
+import java.util.*;
+
+public class sortedMatrix {
+    public static void main(String[] args) {
+        int[][] arr = {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+        };
+        System.out.println(Arrays.toString(search(arr, 4)));
+    }
+
+    // Normal binary searching between row and col provided
+    static int[] binarySerch(int[][] matrix, int row, int cStart, int cEnd, int target) {
+        while (cStart <= cEnd) {
+            int mid = cStart + (cEnd - cStart) / 2;
+            if (matrix[row][mid] == target) {
+                return new int[] { row, mid };
+            }
+            if (matrix[row][mid] > target) {
+                cEnd = mid - 1;
+            } else {
+                cStart = mid + 1;
+            }
+        }
+        return new int[] { -1, -1 };
+
+    }
+
+    // Main algorithm
+    static int[] search(int[][] matrix, int target) {
+        int row = matrix.length;
+        int col = matrix[0].length; // Be cautious matrix Maybe Empty
+        if (row == 1) {
+            return binarySerch(matrix, 0, 0, col - 1, target);
+        }
+        int rStart = 0;
+        int rEnd = row - 1;
+        int cMid = col / 2;
+        // run the loop till two rows are remaining
+        while (rStart < rEnd - 1) {
+            // Eliminating the all other rows
+            int rMid = rStart + (rEnd - rStart) / 2;
+            if (matrix[rMid][cMid] == target) {
+                return new int[] { rMid, cMid };
+            }
+            if (matrix[rMid][cMid] < target) {
+                rStart = rMid;
+            } else {
+                rEnd = rMid;
+            }
+        }
+        // When only 2 rows are remaining
+        if (matrix[rStart][cMid] == target) {
+            return new int[] { rStart, cMid };
+        }
+        if (matrix[rStart + 1][cMid] == target) {
+            return new int[] { rStart + 1, cMid };
+        }
+        // Now when search Space is reduced to just 2 rows but not middle column
+        // Now four possibility
+        // If the target is in starting row behind mid column
+        if (matrix[rStart][cMid - 1] >= target) {
+            return binarySerch(matrix, rStart, 0, cMid - 1, target);
+        }
+        // If the target is in starting row after mid column
+        if (matrix[rStart][cMid + 1] <= target && matrix[rStart][col - 1] >= target) {
+            return binarySerch(matrix, rStart, cMid + 1, col - 1, target);
+        }
+        // If the target is in second row behind mid column
+        if (matrix[rStart + 1][cMid - 1] >= target) {
+            return binarySerch(matrix, rStart + 1, 0, cMid - 1, target);
+        }
+        // If the target is in second row after mid column
+        if (matrix[rStart + 1][cMid + 1] <= target) {
+            return binarySerch(matrix, rStart + 1, cMid + 1, col - 1, target);
+        }
+        return new int[] { -1, -1 };
+    }
+}
